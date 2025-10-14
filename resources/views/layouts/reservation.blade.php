@@ -29,16 +29,16 @@
    <table id="reservationTable" class="border-collapse text-sm mx-auto w-auto min-w-[600px] border border-gray-300 divide-y divide-gray-200">
       <thead class="bg-orange-100 text-orange-700">
         <tr>
-          <th class="px-6 py-3 text-left font-medium">ID</th>
-          <th class="px-6 py-3 text-left font-medium">Guest</th>
-          <th class="px-6 py-3 text-left font-medium">Room</th>
-          <th class="px-6 py-3 text-left font-medium">Check-in</th>
-          <th class="px-6 py-3 text-left font-medium">Check-out</th>
-          <th class="px-6 py-3 text-left font-medium">Nights</th>
-          <th class="px-6 py-3 text-left font-medium">Total Amount</th>
-          <th class="px-6 py-3 text-left font-medium">Dep. Amount</th>
-          <th class="px-6 py-3 text-left font-medium">Status</th>
-          <th class="px-6 py-3 text-left font-medium">Actions</th>
+          <th class="px-4 py-2 text-left font-medium">ID</th>
+          <th class="px-4 py-2 text-left font-medium">Guest</th>
+          <th class="px-4 py-2 text-left font-medium">Room</th>
+          <th class="px-4 py-2 text-left font-medium">Check-in</th>
+          <th class="px-4 py-2 text-left font-medium">Check-out</th>
+          <th class="px-4 py-2 text-left font-medium">Nights</th>
+          <th class="px-4 py-2 text-left font-medium">Total Amount</th>
+          <th class="px-4 py-2 text-left font-medium">Dep. Amount</th>
+          <th class="px-4 py-2 text-left font-medium">Status</th>
+          <th class="px-4 py-2 text-left font-medium">Actions</th>
         </tr>
       </thead>
     </table>

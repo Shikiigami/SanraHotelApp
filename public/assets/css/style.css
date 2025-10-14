@@ -14,3 +14,17 @@
 #guestTable.dataTable, #reservationTable.dataTable tbody tr:hover {
   background-color: #f3f4f6; /* gray-100 */
 }
+
+/* Make sure scrollbar always visible */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #fb923c; /* orange-400 */
+  border-radius: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* gray-100 */
+}
+

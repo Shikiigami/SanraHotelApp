@@ -61,4 +61,9 @@ class Reservation extends Model
             'nights' => 0,
         ];
     }
+
+    public function checkins()
+    {
+        return $this->hasMany(Checkin::class, 'reservation_id', 'id');
+    }
 }

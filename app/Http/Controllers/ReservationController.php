@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Guest;
+use App\Models\Checkin;
 use App\Models\Room;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
@@ -87,15 +88,18 @@ public function getReservationData()
                         data-status="'.e($row->status).'"
                         class="px-3 py-1 text-xs font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 transition">
                         Edit
-                    </button>
-                      <button 
-                        onclick="editRservationDialog(this)"
-                        data-id="'.$row->id.'"
-                        class="px-3 py-1 text-xs font-medium text-white bg-orange-400 rounded-md hover:bg-orange-500 transition">
-                        Checkin
-                    </button>
-                </div>
-            ';
+                    </button>'
+                     .($row->status !== 'Checked In' ? '
+                    <form method="POST" action="'.route('reserve.to.checkin', $row->id).'" 
+                        onsubmit="return confirm(\'Are you sure you want to convert this reservation to check-in?\');" 
+                        class="inline-block">
+                        '.csrf_field().'
+                        <button type="submit" class="px-3 py-1 text-xs font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition">
+                            Checkin
+                        </button>
+                    </form>' : '')
+                .'</div>';
+        
         })
         ->rawColumns(['actions'])
         ->make(true);
@@ -212,4 +216,44 @@ public function updateReservation(Request $request, $id)
         ], 500);
     }
 }
+
+public function reserveTocheckin($id)
+{
+    $reservation = Reservation::where('status', 'Confirmed')
+        ->where('id', $id)
+        ->first();
+
+    if (!$reservation) {
+        return redirect()->back()->with('error', 'Reservation is not yet Confirmed.');
+    }
+
+    if ($reservation->deposit_amount > 0) {
+        $paymentStatus = 'Partially Paid';
+    } elseif ($reservation->deposit_amount == $reservation->total_amount) {
+        $paymentStatus = 'Paid';
+    } else {
+        $paymentStatus = 'Pending';
+    }
+
+    Checkin::create([
+        'reservation_id'       => $reservation->id,
+        'guest_id'             => $reservation->guest_id,
+        'room_id'              => $reservation->room_id,
+        'actual_check_in_time' => $reservation->check_in_date,
+        'actual_check_out_time'=> $reservation->check_out_date,
+        'status'               => 'Checked In',
+        'total_amount'         => $reservation->total_amount,
+        'deposit'              => $reservation->deposit_amount,
+        'balance'              => $reservation->total_amount - $reservation->deposit_amount,
+        'payment_status'       => $paymentStatus,
+        'payment_method'       => '',
+        'payment_reference'    => '',
+        'created_by'           => auth()->user()->name ?? 'System',
+    ]);
+
+    $reservation->status = "Checked In";
+    $reservation->save();
+
+    return redirect()->route('checkins.index')->with('success', 'Reservation converted to Checkin successfully.');
+    }
 }

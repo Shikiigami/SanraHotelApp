@@ -8,5 +8,14 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+   plugins: [
+     require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
+
+  safelist: [
+  'bg-green-500', 'hover:bg-green-600',
+  'bg-orange-500', 'hover:bg-orange-600',
+  'text-white'
+],
+
 };
