@@ -593,7 +593,7 @@
               <option value="Pending">Pending</option>
               <option value="Confirmed">Confirmed</option>
               <option value="Cancelled">Cancelled</option>
-              <option value="Checked">Checked</option>
+              <option value="Checked In">Checked</option>
             </select>
           </div>
 
@@ -705,7 +705,7 @@
               <option value="Pending">Pending</option>
               <option value="Confirmed">Confirmed</option>
               <option value="Cancelled">Cancelled</option>
-              <option value="Checked">Checked</option>
+              <option value="Checked In">Checked</option>
             </select>
           </div>
 

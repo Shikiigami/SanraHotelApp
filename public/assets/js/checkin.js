@@ -1,26 +1,50 @@
-
-window.reservationTable = null;
+window.checkinTable = null;
 
 $(document).ready(function() {
-  window.reservationTable = $('#reservationTable').DataTable({
+  window.checkinTable = $('#checkinTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: '/get-reservation/data',
+    ajax: '/get-checkin/data',
+    scrollX: true,
+    autoWidth: false,
+    responsive: false,
+    fixedColumns: true, 
     columns: [
-      { data: 'id', name: 'id', searchable: true },
+      { data: 'reservation_id', name: 'reservation_id', searchable: true },
       { data: 'guest_name', name: 'guest_name', searchable: true, className: 'whitespace-nowrap px-4 py-2' },
-      { data: 'room_number', name: 'room_number', searchable: true, className: 'whitespace-nowrap px-4 py-2'},
-      { data: 'check_in_date', name: 'check_in_date', searchable: false, className: 'whitespace-nowrap px-4 py-2'},
-      { data: 'check_out_date', name: 'check_out_date', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
-      { data: 'stay_duration', name: 'stay_duration', orderable: false, searchable: false, className: 'whitespace-nowrap px-4 py-2' },
-      { data: 'total_amount', name: 'total_amount', searchable: false, className: 'whitespace-nowrap px-4 py-2'},
-      { data: 'deposit_amount', name: 'deposit_amount', className: 'whitespace-nowrap px-4 py-2' },
-      { data: 'status', name: 'status', searchable: true, className: 'whitespace-nowrap px-4 py-2' },
-      { data: 'actions', name: 'actions', orderable: false, searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'room_number', name: 'room_number', searchable: true, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'actual_check_in_time', name: 'actual_check_in_time', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'actual_check_out_time', name: 'actual_check_out_time', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'stay_duration', name: 'stay_duration', orderable: false, searchable: false, className: 'whitespace-nowrap px-4 py-2'},
+      { data: 'total_amount', name: 'total_amount', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'deposit', name: 'deposit', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'balance', name: 'balance', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { 
+        data: 'status', 
+        name: 'status', 
+        searchable: false, 
+        className: 'whitespace-nowrap px-4 py-2 text-center',
+        render: function(data, type, row) {
+          if (data === 'Check In') {
+            return '<span class="inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Check In</span>';
+          } else if (data === 'Check Out') {
+            return '<span class="inline-block px-2 py-1 text-xs font-semibold text-red-800 bg-red-200 rounded-full">Check Out</span>';
+          } else {
+            return '<span class="inline-block px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-200 rounded-full">' + data + '</span>';
+          }
+        }
+      },
+      { data: 'payment_status', name: 'payment_status', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+        { data: 'payment_method', name: 'payment_method', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'payment_reference', name: 'payment_reference', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'created_by', name: 'created_by', searchable: false, className: 'whitespace-nowrap px-4 py-2' },
+      { data: 'actions', name: 'actions', orderable: false, searchable: false,  className: 'whitespace-nowrap px-4 py-2'  },
     ],
+    
     language: {
       emptyTable: "<span class='text-gray-500'>No data available</span>",
     },
+
     drawCallback: function() {
       lucide.createIcons();
     }
@@ -59,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  function setupReservationLogic({
+  function setupCheckinLogic({
     roomInputId,
     checkInId,
     checkOutId,
@@ -152,33 +176,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // --- Apply to ADD Reservation Form (IDs from your main form) ---
-  setupReservationLogic({
+  setupCheckinLogic({
     roomInputId: 'room_id',
-    checkInId: 'check_in_date',
-    checkOutId: 'check_out_date',
+    checkInId: 'actual_check_in_time',
+    checkOutId: 'actual_check_out_time',
     roomNumberId: 'roomnumber',
     totalId: 'total_amount',
-    depositId: 'deposit_amount',
-    balanceId: 'balance_amount'
+    depositId: 'deposit',
+    balanceId: 'balance'
   });
 
-  // --- Apply to EDIT Reservation Dialog (IDs from your dialog above) ---
-  setupReservationLogic({
+
+  setupCheckinLogic({
     roomInputId: 'editRoomId',
     checkInId: 'editCheck_in_date',
     checkOutId: 'editCheck_out_date',
     roomNumberId: 'editRoomNumber',
     totalId: 'editTotal_amount',
-    depositId: 'editDeposit_amount',
-    balanceId: 'editBalance_amount'
+    depositId: 'editDeposit',
+    balanceId: 'editBalance'
   });
 
 });
 
-window.editReservationDialog = function (button) {
-  const editdlg = document.getElementById('editReservationDialog');
-  const form = document.getElementById('editReservationForm');
+
+window.editCheckinDialog = function (button) {
+  const editdlg = document.getElementById('editCheckinDialog');
+  const form = document.getElementById('editCheckinForm');
 
   if (!editdlg || typeof editdlg.showModal !== 'function') {
     console.error('Dialog not found or not supported.');
@@ -211,8 +235,8 @@ window.editReservationDialog = function (button) {
           showConfirmButton: false
         });
 
-        if (window.reservationTable) {
-          window.reservationTable.ajax.reload(null, false);
+        if (window.checkinTable) {
+          window.checkinTable.ajax.reload(null, false);
         }
 
       } else {
@@ -234,9 +258,9 @@ window.editReservationDialog = function (button) {
 
   // Populate modal fields...
   const id = button.getAttribute('data-id');
-  form.action = `/update/reservation/${id}`;
-  document.getElementById('reservationId').textContent = id || '';
-  document.getElementById('editReservationId').value = id || '';
+  form.action = `/update/checkin/${id}`;
+  document.getElementById('checkinId').textContent = id || '';
+  document.getElementById('editCheckinId').value = id || '';
   document.getElementById('editGid').value = button.getAttribute('data-guest') || '';
   document.getElementById('editGname').value = button.getAttribute('data-guestname') || '';
   document.getElementById('editRoomId').value = button.getAttribute('data-room') || '';
@@ -244,9 +268,13 @@ window.editReservationDialog = function (button) {
   document.getElementById('editCheck_in_date').value = button.getAttribute('data-checkin') || '';
   document.getElementById('editCheck_out_date').value = button.getAttribute('data-checkout') || '';
   document.getElementById('editTotal_amount').value = button.getAttribute('data-amount') || '';
-  document.getElementById('editDeposit_amount').value = button.getAttribute('data-depamount') || '';
-  document.getElementById('editBalance_amount').value = button.getAttribute('data-balance') || '';
+  document.getElementById('editDeposit').value = button.getAttribute('data-depamount') || '';
+  document.getElementById('editBalance').value = button.getAttribute('data-balance') || '';
   document.getElementById('editStatus').value = button.getAttribute('data-status') || '';
+  document.getElementById('editPaymentStatus').value = button.getAttribute('data-paystatus') || '';
+  document.getElementById('editPaymentMethod').value = button.getAttribute('data-paymet') || '';
+  document.getElementById('editPaymentReference').value = button.getAttribute('data-payref') || '';
 
   editdlg.showModal();
 };
+
