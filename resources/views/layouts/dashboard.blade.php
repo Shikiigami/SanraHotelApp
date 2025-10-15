@@ -9,32 +9,32 @@
     <!-- Reservations -->
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Reservations Today</h3>
-      <p class="text-2xl font-bold text-orange-600 mt-2">12</p>
+      <p class="text-2xl font-bold text-orange-600 mt-2">{{$reservations}}</p>
     </div>
 
     <!-- Check-In Today -->
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Check-Ins Today</h3>
-      <p class="text-2xl font-bold text-green-600 mt-2">8</p>
+      <p class="text-2xl font-bold text-green-600 mt-2">{{$checkedins}}</p>
     </div>
 
     <!-- Check-Out Today -->
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Check-Outs Today</h3>
-      <p class="text-2xl font-bold text-red-600 mt-2">5</p>
+      <p class="text-2xl font-bold text-red-600 mt-2">{{$checkedOutToday}}</p>
     </div>
 
     <!-- Available Rooms -->
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Available Rooms</h3>
-      <p class="text-2xl font-bold text-blue-600 mt-2">24</p>
+      <p class="text-2xl font-bold text-blue-600 mt-2">{{$availableRooms}}</p>
     </div>
   </div>
 
   <!-- Recent Reservations Table -->
   <div class="mt-8 bg-white rounded-lg shadow overflow-hidden">
     <div class="p-4 border-b">
-      <h2 class="text-lg font-semibold">Recent Reservations</h2>
+      <h2 class="text-lg font-semibold">Recent Checked Ins</h2>
     </div>
     <div class="overflow-x-auto">
       <table class="min-w-full border-collapse">
@@ -48,25 +48,25 @@
           </tr>
         </thead>
         <tbody class="divide-y">
-          <tr class="transition duration-300 hover:bg-orange-50">
-            <td class="px-6 py-4">Mark Ompad</td>
-            <td class="px-6 py-4">0163</td>
-            <td class="px-6 py-4">September 16, 2025</td>
-            <td class="px-6 py-4">September 17, 2025</td>
+          @foreach($recentCheckins as $checkin)
+          <tr class="divide-x transition duration-300 hover:bg-orange-50">
+            <td class="px-6 py-4">{{$checkin->guest->name}}</td>
+            <td class="px-6 py-4">{{$checkin->room->roomnumber}}</td>
+            <td class="px-6 py-4">{{\Carbon\Carbon::parse($checkin->actual_check_in_time)->format('M d, Y : h:i A')}}</td>
+            <td class="px-6 py-4">{{\Carbon\Carbon::parse($checkin->actual_check_out_time)->format('M d, Y : h:i A')}}</td>
             <td class="px-6 py-4">
-              <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">Paid</span>
+              @if($checkin->payment_status === 'Paid')
+              <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">{{$checkin->payment_status}}</span>
+              @elseif($checkin->payment_status === 'Partially Paid')
+              <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded">{{$checkin->payment_status}}</span>
+              @else
+              <span class="px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded">{{$checkin->payment_status}}</span>
+              @endif
             </td>
           </tr>
-          <tr class="transition duration-300 hover:bg-orange-50">
-            <td class="px-6 py-4">Jane Dela Cruz</td>
-            <td class="px-6 py-4">0210</td>
-            <td class="px-6 py-4">September 18, 2025</td>
-            <td class="px-6 py-4">September 20, 2025</td>
-            <td class="px-6 py-4">
-              <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded">Pending</span>
-            </td>
-          </tr>
+          @endforeach
         </tbody>
+
       </table>
     </div>
   </div>
@@ -75,15 +75,15 @@
   <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Today's Revenue</h3>
-      <p class="text-2xl font-bold text-orange-600 mt-2">₱12,500</p>
+      <p class="text-2xl font-bold text-orange-600 mt-2">₱{{$todayRevenue}}</p>
     </div>
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Outstanding Balance</h3>
-      <p class="text-2xl font-bold text-red-600 mt-2">₱3,200</p>
+     <p class="text-2xl font-bold text-red-600 mt-2">₱{{ number_format($outstandingBalance, 0, '.', ',') }}</p>
     </div>
     <div class="bg-white shadow rounded-lg p-6 text-center">
       <h3 class="text-sm font-medium text-gray-500">Recent Payments</h3>
-      <p class="text-2xl font-bold text-green-600 mt-2">₱8,000</p>
+      <p class="text-2xl font-bold text-green-600 mt-2">₱{{number_format($recentPayment, 0, '.', ',')}}</p>
     </div>
   </div>
 

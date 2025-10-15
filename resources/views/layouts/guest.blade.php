@@ -1,66 +1,30 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('title', 'Guest')
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-@section('page-title', 'Hospitality Management Hostel PMS')
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-@section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-  <div class="flex items-center justify-between text-white bg-orange-400 rounded-lg shadow p-6">
-    <div>
-      <p class="text-2xl font-bold">GUESTS</p>
-      <h2 class="text-lg">Guests Management</h2>
-    </div>
-      <button onclick="addGuestDialog()" 
-      class="flex items-center gap-2 bg-white text-orange-500 px-4 py-2 rounded-lg shadow hover:bg-orange-100">
-      <i data-lucide="plus" class="w-5 h-5"></i>
-      <span>Add Guest</span>
-    </button>
-  </div>
-</div>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans text-gray-900 antialiased">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+            <div>
+                <a href="/">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                </a>
+            </div>
 
-<!-- Guest List Section -->
-<div class="mt-8">
-  <!-- Filters + Search -->
-  
- <div class="bg-white rounded-lg shadow overflow-hidden mt-6 p-2">
-  <div class="flex justify-between items-center border-b pb-2 mb-4">
-    <h2 class="text-lg font-semibold text-gray-800">Guests Table</h2>
-  </div>
-  <div class="overflow-x-auto">
-    <table id="guestTable" class="border-collapse text-sm mx-auto w-auto min-w-[600px] border border-gray-300 divide-y divide-gray-200">
-      <thead class="bg-orange-100 text-orange-700">
-        <tr>
-          <th class="px-6 py-3 text-left font-medium">Id</th>
-          <th class="px-6 py-3 text-left font-medium">Name</th>
-          <th class="px-6 py-3 text-left font-medium">Email</th>
-          <th class="px-6 py-3 text-left font-medium">Phone</th>
-          <th class="px-6 py-3 text-left font-medium">ID Type</th>
-          <th class="px-6 py-3 text-left font-medium">ID Number</th>
-          <th class="px-6 py-3 text-left font-medium">Address</th>
-          <th class="px-6 py-3 text-left font-medium">Actions</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-</div>
-
-</div>
-@endsection
-
-@section('add-modal')
-@include('components.modal-components')
-@endsection
-
-
-@push('scripts')
-<script src="{{ asset('assets/js/jquery-3.6.0.min.js')}}?v={{ time() }}"></script>
-<script src="{{ asset('assets/js/jquery.dataTables.min.js')}}?v={{ time() }}"></script>
-<script src="{{ asset('assets/js/guest.js')}}?v={{ time() }}"></script>
-
-<script src="{{ asset('asset/js/tailwindplus.js')}}?v={{ time() }}" type="module"></script>
-<script src="{{asset('assets/js/alpine.js')}}?v={{ time() }}" defer></script>
-<script src="{{asset('assets/js/sweetAlert.js')}}?v={{ time() }}"></script>
-@endpush
-
-
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+                {{ $slot }}
+            </div>
+        </div>
+    </body>
+</html>

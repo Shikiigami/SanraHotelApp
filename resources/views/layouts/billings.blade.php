@@ -41,12 +41,6 @@
 <div class="bg-white rounded-lg shadow mt-6 p-4">
 <div class="flex items-center gap-4 border-b border-gray-200 pb-2 mb-4">
   <h2 class="text-lg font-semibold text-gray-800">Recent Billings</h2>
-
-  <button onclick="document.getElementById('checkinDialog').showModal()" 
-          class="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-600 transition">
-    <i data-lucide="plus" class="w-5 h-5"></i>
-    <span>New Checkin</span>
-  </button>
 </div>
 
 

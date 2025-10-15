@@ -408,7 +408,7 @@
       </div>
 
       <!-- Form -->
-      <form id="editGuestForm" method="POST" action="{{route('store.guest')}}" class="px-10 pt-6 pb-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <form id="editGuestForm" method="POST" action="" class="px-10 pt-6 pb-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
         @csrf
         @method('PUT')
         <input type="hidden" name="id" id="editGuestId">

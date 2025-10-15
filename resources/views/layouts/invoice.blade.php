@@ -99,7 +99,7 @@
 
     <div class="header">
         <div>
-            <div class="hotel-logo">H</div>
+            <div class="hotel-logo"><img src="{{asset('assets/images/logo.png')}}" width="100" height="100" alt=""></div>
             <div style="font-size: 20px; font-family: 'Georgia', serif;">Hospitality Management Hostel</div>
         </div>
         <div class="hotel-info">

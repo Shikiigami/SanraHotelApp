@@ -94,7 +94,7 @@ public function getReservationData()
                         onsubmit="return confirm(\'Are you sure you want to convert this reservation to check-in?\');" 
                         class="inline-block">
                         '.csrf_field().'
-                        <button type="submit" class="px-3 py-1 text-xs font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition">
+                        <button type="submit" class="px-3 py-1 text-xs font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 transition">
                             Checkin
                         </button>
                     </form>' : '')

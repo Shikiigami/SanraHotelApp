@@ -78,9 +78,9 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('reservation.index') }}"
+                    <a href="{{ route('admin.index') }}"
                        class="flex items-center gap-2 py-2 px-3 rounded transition-colors
-                       {{ request()->routeIs('reservation.index') ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
+                       {{ request()->routeIs('admin.index') ? 'bg-orange-500 text-white' : 'hover:bg-orange-500' }}">
                         <i data-lucide="shield" class="w-5 h-5"></i>
                         <span>Admin</span>
                     </a>
@@ -89,10 +89,15 @@
         </nav>
 
         <!-- Logout -->
-        <div class="p-4 border-t border-orange-500">
-            <a href="#" class="block py-2 px-3 rounded hover:bg-orange-500 transition-colors">
-                Logout
-            </a>
+       <div class="p-4 border-t border-orange-500">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-orange-500 text-white transition">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+
         </div>
     </aside>
 

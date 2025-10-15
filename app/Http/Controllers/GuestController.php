@@ -13,7 +13,7 @@ class GuestController extends Controller
 {
 public function index()
 {
-    return view('layouts.guest');
+    return view('layouts.hotel-guest');
 }
 
 public function getGuestsData()
